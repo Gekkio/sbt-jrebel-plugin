@@ -1,0 +1,13 @@
+.classpath
+.manager/**
+.project
+.scala_dependencies
+.settings/**
+target/**
+lib_local/**
+lib_managed/**
+project/boot/**
+project/build/target/**
+project/plugins/target/**
+project/plugins/lib_managed/**
+project/plugins/src_managed/**

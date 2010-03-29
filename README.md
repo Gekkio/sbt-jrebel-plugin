@@ -1,3 +1,16 @@
+## Features
+
++ Generates rebel.xml, so it's similar to javarebel-maven-plugin in the Maven world
++ Support for jetty-run (JRebelWebPlugin trait)
++ Fully configurable through method overrides
+
+_Default behaviour_
+
++ Disables itself if SBT isn't run with JRebel agent enabled
++ Writes rebel.xml to target/scala_xx/jrebel/rebel.xml (or target/jrebel/rebel.xml if cross building is disabled)
++ Regenerates rebel.xml always before prepare-webapp is run
++ Includes rebel.xml only in Jetty classpath, so it doesn't end up in any artifacts
+
 ## Usage
 
 **Make sure you run sbt with JRebel agent enabled**
@@ -19,6 +32,3 @@ Then mix the plugin into your project definition:
 
     class SomeProject(info: ProjectInfo) extends DefaultWebProject(info) with JRebelWebPlugin {
     }
-
-When you use `jetty-run`, rebel.xml is automatically generated and added to classpath.
-For non-web projects you can mix JRebelPlugin and manually use the generate-rebel-xml task when appropriate.

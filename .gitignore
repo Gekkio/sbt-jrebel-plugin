@@ -3,6 +3,8 @@
 .project
 .scala_dependencies
 .settings/**
+*.swp
+*~
 target/**
 lib_local/**
 lib_managed/**

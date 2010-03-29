@@ -3,7 +3,8 @@ package fi.jawsy.sbtplugins.jrebel
 import scala.xml._
 import sbt._
 
-trait JRebelProject extends DefaultWebProject {
+trait JRebelPlugin extends Project {
+  self: MavenStyleScalaPaths =>
 
   lazy val rebelInUse = List("jrebel.lic", "javarebel.lic").exists(this.getClass.getClassLoader.getResource(_) != null)
 
@@ -28,20 +29,6 @@ trait JRebelProject extends DefaultWebProject {
       <dir name={mainCompilePath.absolutePath} />
       <dir name={mainResourcesOutputPath.absolutePath} />
     </classpath>
-    <web>
-      <link target="/">
-        <dir name={webappPath.absolutePath} />
-      </link>
-    </web>
   }
-
-  override def scanDirectories = if (rebelInUse) Nil else super.scanDirectories
-
-  override def prepareWebappAction = {
-    if (autogenerateRebelXml) super.prepareWebappAction dependsOn(generateRebelXml)
-    else super.prepareWebappAction
-  }
-
-  override def webappClasspath = super.webappClasspath +++ rebelOutputPath
 
 }

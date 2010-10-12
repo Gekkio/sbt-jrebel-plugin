@@ -12,7 +12,7 @@ trait JRebelWebPlugin extends DefaultWebProject with JRebelPlugin {
     else super.prepareWebappAction
   }
 
-  override def webappClasspath = super.webappClasspath +++ rebelOutputPath
+  override def jettyRunClasspath = super.jettyRunClasspath +++ rebelOutputPath
 
   override def rebelXml: NodeSeq = super.rebelXml ++
     <web>

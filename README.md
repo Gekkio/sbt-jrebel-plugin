@@ -68,13 +68,7 @@ _JAR projects:_
 
 #### Write my own rebel.xml
 
-`override rebelXml =
-   <classpath>
-     <!-- This is just an example -->
-   </classpath>
-   <web>
-     <!-- Refer to JRebel documentation -->
-   </web>`
+`override rebelXml = <classpath> <!-- This is just an example --> </classpath> <web> <!-- Refer to JRebel documentation --> </web>`
 
 ## Cross-project change reloading
 

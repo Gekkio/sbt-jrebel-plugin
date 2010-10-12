@@ -22,6 +22,8 @@ trait JRebelPlugin extends Project {
     None
   }
 
+  def packageRebelXml = false
+
   def autogenerateRebelXml = rebelInUse
 
   def rebelXmlPath = rebelOutputPath / "rebel.xml"

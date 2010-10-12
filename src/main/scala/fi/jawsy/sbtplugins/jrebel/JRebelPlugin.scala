@@ -3,6 +3,10 @@ package fi.jawsy.sbtplugins.jrebel
 import scala.xml._
 import sbt._
 
+object JRebelPlugin {
+  def directory(path: Path) = if (path.exists) <dir name={path.absolutePath} /> else NodeSeq.Empty
+}
+
 trait JRebelPlugin extends Project {
   self: MavenStyleScalaPaths =>
 
@@ -26,8 +30,8 @@ trait JRebelPlugin extends Project {
 
   def rebelXml: NodeSeq = {
     <classpath>
-      <dir name={mainCompilePath.absolutePath} />
-      <dir name={mainResourcesOutputPath.absolutePath} />
+      { JRebelPlugin.directory(mainCompilePath) }
+      { JRebelPlugin.directory(mainResourcesOutputPath) }
     </classpath>
   }
 

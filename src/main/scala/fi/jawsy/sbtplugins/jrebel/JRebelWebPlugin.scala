@@ -17,7 +17,7 @@ trait JRebelWebPlugin extends DefaultWebProject with JRebelPlugin {
   override def rebelXml: NodeSeq = super.rebelXml ++
     <web>
       <link target="/">
-        <dir name={webappPath.absolutePath} />
+        { JRebelPlugin.directory(webappPath) }
       </link>
     </web>
 

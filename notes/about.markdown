@@ -1,0 +1,1 @@
+sbt-jrebel-plugin is a plugin for [Simple Build Tool](http://code.google.com/p/simple-build-tool/) that generates configuration files (rebel.xml) for [JRebel](http://www.zeroturnaround.com/jrebel/).

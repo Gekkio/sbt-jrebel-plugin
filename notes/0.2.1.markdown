@@ -1,0 +1,4 @@
+This release fixes a minor bug.
+
+Bug fixes:
++ Automatic rebel.xml generation now works for JAR projects with no files in src/main/resources

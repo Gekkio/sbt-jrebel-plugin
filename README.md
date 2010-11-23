@@ -19,6 +19,7 @@ _Default behaviour_
 + (Web projects) Regenerates rebel.xml always before prepare-webapp is run
 + (JAR projects) Regenerates rebel.xml always before copy-resources or compile is run
 + (Web projects) Includes rebel.xml only in Jetty classpath, so it doesn't end up in any artifacts
++ (JAR projects) Does not include rebel.xml in resulting JAR
 
 ## Usage
 

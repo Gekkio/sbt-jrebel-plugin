@@ -1,6 +1,6 @@
 import sbt._
 
-class SbtJRebelPlugin(info: ProjectInfo) extends PluginProject(info) {
+class SbtJRebelPlugin(info: ProjectInfo) extends PluginProject(info) with posterous.Publish {
 
   override def managedStyle = ManagedStyle.Maven
 

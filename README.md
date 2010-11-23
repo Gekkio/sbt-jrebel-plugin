@@ -17,7 +17,7 @@ _Default behaviour_
 + Disables itself if SBT isn't run with JRebel agent enabled
 + Writes rebel.xml to target/scala\_xx/jrebel/rebel.xml (or target/jrebel/rebel.xml if cross building is disabled)
 + (Web projects) Regenerates rebel.xml always before prepare-webapp is run
-+ (JAR projects) Regenerates rebel.xml always before copy-resources is run
++ (JAR projects) Regenerates rebel.xml always before copy-resources or compile is run
 + (Web projects) Includes rebel.xml only in Jetty classpath, so it doesn't end up in any artifacts
 
 ## Usage

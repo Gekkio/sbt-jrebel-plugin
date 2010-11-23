@@ -30,7 +30,7 @@ First, add the maven repository and the plugin declaration to project/plugins/Pl
 
     class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
       val jawsyMavenReleases = "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
-      val jrebelPlugin = "fi.jawsy" % "sbt-jrebel-plugin" % "0.2.0"
+      val jrebelPlugin = "fi.jawsy" % "sbt-jrebel-plugin" % "0.2.1"
     }
 
 

@@ -8,6 +8,7 @@
 target/**
 lib_local/**
 lib_managed/**
+project/target/**
 project/boot/**
 project/build/target/**
 project/plugins/target/**

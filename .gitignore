@@ -1,4 +1,5 @@
 .classpath
+.history
 .manager/**
 .project
 .scala_dependencies
@@ -6,11 +7,5 @@
 *.swp
 *~
 target/**
-lib_local/**
-lib_managed/**
 project/target/**
 project/boot/**
-project/build/target/**
-project/plugins/target/**
-project/plugins/lib_managed/**
-project/plugins/src_managed/**

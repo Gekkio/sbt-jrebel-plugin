@@ -1,0 +1,7 @@
+First release for SBT 0.9+.
+
+This version targets SBT 0.11.0. Please note that SBT 0.9+ is radically different and this plugin has been rewritten.
+
+Bug fixes:
+
++ JRebel detection works with 4.5.0 release

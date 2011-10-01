@@ -1,4 +1,4 @@
-organization := "fi.jawsy"
+organization := "fi.jawsy.sbtplugins"
 
 name := "sbt-jrebel-plugin"
 

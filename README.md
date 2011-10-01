@@ -8,74 +8,55 @@ sbt-jrebel-plugin is a plugin for [Simple Build Tool](http://code.google.com/p/s
 ## Features
 
 + Generates rebel.xml, so it's similar to javarebel-maven-plugin in the Maven world
-+ Support for jetty-run (JRebelWebPlugin trait)
-+ Fully configurable through method overrides
 + Cross-project change reloading
 
 _Default behaviour_
 
 + Disables itself if SBT isn't run with JRebel agent enabled
-+ Writes rebel.xml to target/scala\_xx/jrebel/rebel.xml (or target/jrebel/rebel.xml if cross building is disabled)
-+ (Web projects) Regenerates rebel.xml always before prepare-webapp is run
-+ (JAR projects) Regenerates rebel.xml always before copy-resources or compile is run
-+ (Web projects) Includes rebel.xml only in Jetty classpath, so it doesn't end up in any artifacts
-+ (JAR projects) Does not include rebel.xml in resulting JAR
++ Writes rebel.xml as a managed resource which is automatically added to classpath *and artifacts*
+
+__You should always disable sbt-jrebel-plugin when publishing artifacts somewhere else than locally. Otherwise your artifacts will include rebel.xml files__
 
 ## Usage
 
 **Make sure you run sbt with JRebel agent enabled**
 
-First, add the maven repository and the plugin declaration to project/plugins/Plugins.scala:
+First, add the maven repository and the plugin declaration to project/plugins.sbt:
 
-    import sbt._
+		resolvers += "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
 
-    class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
-      val jawsyMavenReleases = "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
-      val jrebelPlugin = "fi.jawsy" % "sbt-jrebel-plugin" % "0.2.1"
-    }
+		addSbtPlugin("fi.jawsy.sbtplugins" %% "sbt-jrebel-plugin" % "0.9.0")
 
+Then include the plugin settings in your project definition:
 
-Then mix the plugin into your project definition:
+		seq(jrebelSettings: _*)
 
-_Web projects:_
+If you are using [xsbt-web-plugin](https://github.com/siasia/xsbt-web-plugin) and want to reload web resources, also add this:
 
-    import fi.jawsy.sbtplugins.jrebel.JRebelWebPlugin
-    import sbt._
-
-    class SomeProject(info: ProjectInfo) extends DefaultWebProject(info) with JRebelWebPlugin {
-    }
-
-_JAR projects:_
-
-    import fi.jawsy.sbtplugins.jrebel.JRebelJarPlugin
-    import sbt._
-
-    class SomeProject(info: ProjectInfo) extends DefaultProject(info) with JRebelJarPlugin {
-    }
+		jrebel.webLinks <+= temporaryWarPath
 
 ### How do I ...?
 
 #### Disable rebel.xml generation
 
-`override autogenerateRebelXml = false`
+Project definition:
+`jrebel.enabled := false`
+
+or in SBT console:
+`set jrebel.enabled := false`
 
 #### Force rebel.xml generation (regardless of whether you run SBT with JRebel enabled)
 
-`override autogenerateRebelXml = true`
+Project definition:
+`jrebel.enabled := true`
 
-#### Package rebel.xml in JAR/WAR
-
-`override packageRebelXml = true`
-
-#### Write my own rebel.xml
-
-`override rebelXml = <classpath> <!-- This is just an example --> </classpath> <web> <!-- Refer to JRebel documentation --> </web>`
+or in SBT console:
+`set jrebel.enabled := true`
 
 ## Cross-project change reloading
 
 Let's say you have two projects, MyLib which is a library project and MyWebApp which is a webapp. These two are completely separate and differently versioned projects. If you have sbt-jrebel-plugin enabled for both projects, you can make changes in MyLib while developing MyWebApp and have them reloaded instantly.
 
-+ Make sure at least MyLib has packageRebelXml enabled (`override def packageRebelXml = true`)
 + Deploy MyLib with `sbt publish-local`. The package includes a rebel.xml file that contains the absolute paths to your MyLib project directories.
 + Update MyWebApp dependencies with `sbt update`. MyWebApp now uses the MyLib package that has a rebel.xml.
 + Run MyWebApp and enable continuous webapp compilation (for example I use `sbt jetty-run "~  prepare-webapp"`)

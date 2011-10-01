@@ -2,7 +2,7 @@ organization := "fi.jawsy.sbtplugins"
 
 name := "sbt-jrebel-plugin"
 
-version := "0.9.0-SNAPSHOT"
+version := "0.9.0"
 
 sbtPlugin := true
 

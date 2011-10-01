@@ -6,8 +6,10 @@ version := "0.9.0-SNAPSHOT"
 
 sbtPlugin := true
 
-publishTo := Some({
-  if (version.toString.endsWith("-SNAPSHOT"))
-    ("Nexus" at "https://www.jawsy.fi/nexus/content/repositories/snapshots")
-    else ("Nexus" at "https://www.jawsy.fi/nexus/content/repositories/releases")
-})
+publishTo <<= (version) { version: String =>
+  val nexus = "https://jawsy.fi/nexus/content/repositories/"
+	if (version.trim.endsWith("SNAPSHOT"))
+		Some("Jawsy.fi M2 snapshots" at nexus + "snapshots")
+	else
+		Some("Jawsy.fi M2 releases" at nexus + "releases")
+}

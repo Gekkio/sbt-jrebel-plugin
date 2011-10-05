@@ -6,7 +6,7 @@ organizationHomepage := Some(new URL("http://jawsy.fi"))
 
 name := "sbt-jrebel-plugin"
 
-version := "0.9.0"
+version := "0.9.1-SNAPSHOT"
 
 sbtPlugin := true
 

@@ -23,17 +23,17 @@ __You should always disable sbt-jrebel-plugin when publishing artifacts somewher
 
 First, add the maven repository and the plugin declaration to project/plugins.sbt:
 
-		resolvers += "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
+	resolvers += "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
 
-		addSbtPlugin("fi.jawsy.sbtplugins" %% "sbt-jrebel-plugin" % "0.9.0")
+	addSbtPlugin("fi.jawsy.sbtplugins" %% "sbt-jrebel-plugin" % "0.9.0")
 
 Then include the plugin settings in your project definition:
 
-		seq(jrebelSettings: _*)
+	seq(jrebelSettings: _*)
 
 If you are using [xsbt-web-plugin](https://github.com/siasia/xsbt-web-plugin) and want to reload web resources, also add this:
 
-		jrebel.webLinks <+= temporaryWarPath
+	jrebel.webLinks <+= temporaryWarPath
 
 ### How do I ...?
 

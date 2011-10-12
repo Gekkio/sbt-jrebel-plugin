@@ -33,7 +33,13 @@ Then include the plugin settings in your project definition:
 
 If you are using [xsbt-web-plugin](https://github.com/siasia/xsbt-web-plugin) and want to reload web resources, also add this:
 
+version 0.1.x:
+
 	jrebel.webLinks <+= temporaryWarPath
+
+version 0.2.x:
+
+	jrebel.webLinks <++= webappResources in Compile
 
 ### How do I ...?
 

@@ -21,7 +21,7 @@ __You should always disable sbt-jrebel-plugin when publishing artifacts somewher
 
 **Make sure you run sbt with JRebel agent enabled**
 
-First, add the maven repository and the plugin declaration to project/plugins.sbt:
+First, add the maven repository and the plugin declaration to project/plugins.sbt or project/plugins/build.sbt (both will work but the former is recommended SBT 0.11+):
 
 	resolvers += "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
 

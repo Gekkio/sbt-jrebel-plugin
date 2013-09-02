@@ -1,6 +1,0 @@
-This is the first release.
-
-Features:
-
-+ Basic rebel.xml generation for WAR projects
-+ Generates rebel.xml by default only if SBT is run with JRebel

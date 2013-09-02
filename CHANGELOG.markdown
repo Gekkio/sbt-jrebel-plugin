@@ -1,6 +1,6 @@
 # sbt-jrebel-plugin changelog
 
-## 0.10.0
+## 0.10.0 (Sep 2, 2013)
 
 First release for SBT 0.13.
 

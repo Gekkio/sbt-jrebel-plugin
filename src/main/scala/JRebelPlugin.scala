@@ -1,7 +1,6 @@
-package fi.jawsy.sbtplugins.jrebel
+package fi.gekkio.sbtplugins.jrebel
 
 import sbt._
-import sbt.CommandSupport.logger
 import sbt.Keys._
 import sbt.Scope.GlobalScope
 import scala.xml._
@@ -16,13 +15,13 @@ object JRebelPlugin extends Plugin {
 
   val jrebelGenerate = TaskKey[Seq[File]]("jrebel-generate")
 
-  val jrebelSettings: Seq[Project.Setting[_]] = Seq[Setting[_]](
+  val jrebelSettings: Seq[Def.Setting[_]] = Seq[Setting[_]](
     jrebel.classpath <<= Seq(Keys.classDirectory in Compile, Keys.classDirectory in Test).join,
     jrebel.enabled := (java.lang.Package.getPackage("com.zeroturnaround.javarebel") != null),
     jrebel.rebelXml <<= (resourceManaged in Compile) { _ / "rebel.xml" },
     jrebel.webLinks := Seq(),
     jrebelGenerate <<= rebelXmlTask,
-    resourceGenerators in Compile <+= jrebelGenerate.identity
+    resourceGenerators in Compile <+= jrebelGenerate
   )
 
   private def dirXml(dir: File) = <dir name={ dir.absolutePath } />
@@ -34,7 +33,7 @@ object JRebelPlugin extends Plugin {
       </link>
     </web>
 
-  private def rebelXmlTask: Project.Initialize[Task[Seq[File]]] =
+  private def rebelXmlTask: Def.Initialize[Task[Seq[File]]] =
     (jrebel.enabled, jrebel.classpath, jrebel.rebelXml, jrebel.webLinks, state) map {
       (enabled, classpath, rebelXml, webLinks, state) =>
         if (!enabled) Nil
@@ -52,7 +51,7 @@ object JRebelPlugin extends Plugin {
           IO.touch(rebelXml)
           XML.save(rebelXml.absolutePath, xml, "UTF-8", true)
 
-          logger(state).info("Wrote rebel.xml to %s".format(rebelXml.absolutePath))
+          state.log.info("Wrote rebel.xml to %s".format(rebelXml.absolutePath))
 
           rebelXml :: Nil
         }

@@ -3,7 +3,9 @@ sbt-jrebel-plugin
 
 ## Introduction
 
-sbt-jrebel-plugin is a plugin for [Simple Build Tool](http://code.google.com/p/simple-build-tool/) that generates configuration files (rebel.xml) for [JRebel](http://www.zeroturnaround.com/jrebel/). A rebel.xml is not always required but is recommended because if you don't have one, JRebel cannot understand the layout of your project and might fail to reload changes. You also cannot reload changes from separate projects.
+sbt-jrebel-plugin is a plugin for [Simple Build Tool](http://www.scala-sbt.org) that generates configuration files (rebel.xml) for [JRebel](http://www.zeroturnaround.com/jrebel/). A rebel.xml is not always required but is recommended because if you don't have one, JRebel cannot understand the layout of your project and might fail to reload changes. You also cannot reload changes from separate projects.
+
+**Supported SBT versions: 0.13.x**
 
 ## Features
 
@@ -21,23 +23,15 @@ __You should always disable sbt-jrebel-plugin when publishing artifacts somewher
 
 **Make sure you run sbt with JRebel agent enabled**
 
-First, add the maven repository and the plugin declaration to project/plugins.sbt or project/plugins/build.sbt (both will work but the former is recommended SBT 0.11+):
+Add the plugin declaration to project/plugins.sbt:
 
-	resolvers += "Jawsy.fi M2 releases" at "http://oss.jawsy.fi/maven2/releases"
-
-	addSbtPlugin("fi.jawsy.sbtplugins" %% "sbt-jrebel-plugin" % "0.9.0")
+	addSbtPlugin("fi.gekkio.sbtplugins" % "sbt-jrebel-plugin" % "0.10.0")
 
 Then include the plugin settings in your project definition:
 
 	seq(jrebelSettings: _*)
 
-If you are using [xsbt-web-plugin](https://github.com/siasia/xsbt-web-plugin) and want to reload web resources, also add this:
-
-version 0.1.x:
-
-	jrebel.webLinks <+= temporaryWarPath
-
-version 0.2.x:
+If you are using [xsbt-web-plugin](https://github.com/JamesEarlDouglas/xsbt-web-plugin) and want to reload web resources, also add this:
 
 	jrebel.webLinks <++= webappResources in Compile
 

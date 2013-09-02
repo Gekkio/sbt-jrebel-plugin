@@ -1,11 +1,5 @@
-.classpath
-.history
-.manager/**
-.project
-.scala_dependencies
-.settings/**
+*.bak
+*.log
 *.swp
 *~
-target/**
-project/target/**
-project/boot/**
+target/

@@ -33,6 +33,12 @@ Then include the plugin settings in your project definition:
 
 If you are using [xsbt-web-plugin](https://github.com/earldouglas/xsbt-web-plugin) and want to reload web resources, also add this:
 
+*xsbt-web-plugin >= 2.0:*
+
+	jrebel.webLinks += (sourceDirectory in Compile).value / "webapp"
+
+	(remove .value if using SBT <= 0.13.2)
+
 *xsbt-web-plugin >= 1.0:*
 
 	jrebel.webLinks <++= webappSrc in webapp

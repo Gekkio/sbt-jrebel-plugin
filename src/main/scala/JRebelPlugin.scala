@@ -5,7 +5,7 @@ import sbt.Keys._
 import sbt.Scope.GlobalScope
 import scala.xml._
 
-object JRebelPlugin extends Plugin {
+object JRebelPlugin extends AutoPlugin {
   object jrebel {
     val classpath = SettingKey[Seq[File]]("jrebel-classpath")
     val enabled = SettingKey[Boolean]("jrebel-enabled")
@@ -16,13 +16,15 @@ object JRebelPlugin extends Plugin {
   val jrebelGenerate = TaskKey[Seq[File]]("jrebel-generate")
 
   val jrebelSettings: Seq[Def.Setting[_]] = Seq[Setting[_]](
-    jrebel.classpath <<= Seq(Keys.classDirectory in Compile, Keys.classDirectory in Test).join,
+    jrebel.classpath := (Seq(Keys.classDirectory in Compile, Keys.classDirectory in Test).join).value,
     jrebel.enabled := (java.lang.Package.getPackage("com.zeroturnaround.javarebel") != null),
-    jrebel.rebelXml <<= (resourceManaged in Compile) { _ / "rebel.xml" },
+    jrebel.rebelXml := ((resourceManaged in Compile) { _ / "rebel.xml" }).value,
     jrebel.webLinks := Seq(),
-    jrebelGenerate <<= rebelXmlTask,
-    resourceGenerators in Compile <+= jrebelGenerate
+    jrebelGenerate := rebelXmlTask.value,
+    resourceGenerators in Compile += Def.task { jrebelGenerate.value }
   )
+
+  override lazy val projectSettings = jrebelSettings
 
   private def dirXml(dir: File) = <dir name={ dir.absolutePath } />
 
@@ -33,27 +35,31 @@ object JRebelPlugin extends Plugin {
       </link>
     </web>
 
-  private def rebelXmlTask: Def.Initialize[Task[Seq[File]]] =
-    (jrebel.enabled, jrebel.classpath, jrebel.rebelXml, jrebel.webLinks, state) map {
-      (enabled, classpath, rebelXml, webLinks, state) =>
-        if (!enabled) Nil
-        else {
-          val xml =
-            <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
-              <classpath>
-               { classpath.map(dirXml) }
-              </classpath>
-              {
-                webLinks.map(webLinkXml)
-              }
-            </application>
+  private def rebelXmlTask: Def.Initialize[Task[Seq[File]]] = Def.task {
+    val enabled = jrebel.enabled.value
+    val classpath = jrebel.classpath.value
+    val rebelXml = jrebel.rebelXml.value
+    val webLinks = jrebel.webLinks.value
+    val s = state.value
 
-          IO.touch(rebelXml)
-          XML.save(rebelXml.absolutePath, xml, "UTF-8", true)
+    if (!enabled) Nil
+    else {
+      val xml =
+        <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
+          <classpath>
+           { classpath.map(dirXml) }
+          </classpath>
+          {
+            webLinks.map(webLinkXml)
+          }
+        </application>
 
-          state.log.info("Wrote rebel.xml to %s".format(rebelXml.absolutePath))
+      IO.touch(rebelXml)
+      XML.save(rebelXml.absolutePath, xml, "UTF-8", true)
 
-          rebelXml :: Nil
-        }
+      s.log.info("Wrote rebel.xml to %s".format(rebelXml.absolutePath))
+
+      rebelXml :: Nil
     }
+  }
 }

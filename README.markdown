@@ -5,7 +5,7 @@ sbt-jrebel-plugin
 
 sbt-jrebel-plugin is a plugin for [Simple Build Tool](http://www.scala-sbt.org) that generates configuration files (rebel.xml) for [JRebel](http://www.zeroturnaround.com/jrebel/). A rebel.xml is not always required but is recommended because if you don't have one, JRebel cannot understand the layout of your project and might fail to reload changes. You also cannot reload changes from separate projects.
 
-**Supported SBT versions: 0.13.x**
+**Supported SBT versions: 0.13.x and 1.x**
 
 ## Features
 
@@ -25,11 +25,12 @@ __You should always disable sbt-jrebel-plugin when publishing artifacts somewher
 
 Add the plugin declaration to project/plugins.sbt:
 
-	addSbtPlugin("fi.gekkio.sbtplugins" % "sbt-jrebel-plugin" % "0.10.0")
+	addSbtPlugin("fi.gekkio.sbtplugins" % "sbt-jrebel-plugin" % "0.20.0")
 
-Then include the plugin settings in your project definition:
+Then enable the plugin and include settings in your project definition (build.sbt):
 
-	seq(jrebelSettings: _*)
+  enablePlugins(JRebelPlugin)
+  JRebelPlugin.projectSettings
 
 If you are using [xsbt-web-plugin](https://github.com/earldouglas/xsbt-web-plugin) and want to reload web resources, also add this:
 

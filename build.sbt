@@ -2,7 +2,9 @@ organization := "fi.gekkio.sbtplugins"
 
 name := "sbt-jrebel-plugin"
 
-version := "0.10.0"
+version := "0.20.0"
+
+crossSbtVersions := Seq("0.13.16", "1.0.2")
 
 sbtPlugin := true
 
